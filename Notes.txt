@@ -1,0 +1,156 @@
+* This represents heading.
+==> this represents syntax.
+//Eg : this represents example.
+
+
+* To create a database
+==> CREATE DATABASE <name>
+
+
+* To create a table
+==> CREATE TABLE table-name(
+    column name + data type + constraints if any
+);
+//Eg : CREATE TABLE person (
+    id INT,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    gender VARCHAR(7),
+    date_of_birth TIMESTAMP
+);
+
+
+* Insert values in table
+==> INSERT INTO table-name(exact column names)
+    VALUES ("Values to be inserted");
+
+//Eg: INSERT INTO person(first_name, last_name, gender)
+      VALUES ("Anne","Smith","FEMALE");
+
+
+* Order by
+//Eg : SELLECT * FROM person ORDER BY country_of_birth ASC;
+//Eg : SELLECT * FROM person ORDER BY country_of_birth DESC;
+
+
+* Distinct
+//Eg : SELECT DISTINCT country_of_birth FROM person ORDER BY country_of_birth;
+
+
+* WHERE clause
+//Eg: SELECT * FROM person WHERE gender = "FEMALE;
+
+
+* WHERE and AND clause
+//Eg: SELLECT * FROM person WHERE gender="MALE" AND country_of_birth = "Poland";
+
+
+*Comparison operators
+< , <=   Less than, Less than equal
+> , >=   Greater than, Greater than equal
+<>       not equal
+=        equal to
+
+
+* Limit, Offset and Fetch
+//Eg: SELECT * FROM person LIMIT 10;
+//Eg: SELECT * FROM person OFFSET 5 LIMIT 10;
+//Eg: SELECT * FROM person OFFSET 5 FETCH FIRST 5 ROW ONLY;
+
+
+* IN
+//Eg : SELECT *FROM person WHERE country_of_birth IN ("China", "Brazil", "Poland");
+
+
+*BETWEEN - Select data from a range
+//Eg: SELECT * FROM person WHERE date_of_birth BETWEEN DATE "2000-01-01" AND "2015-01-01";
+
+
+*Like and ILike - match text values against pattern using wild cards
+*ILike - is case sensitive
+//Eg: SELECT * FROM person WHERE email LIKE "%.com";
+//Eg: SELECT * FROM person WHERE country_of_birth ILIKE "p%";
+
+
+* GROUP BY - group data based on column
+//Eg: SELECT country_of_birth FROM person GROUP BY country_of_birth;
+//Eg: SELECT country_of_birth, COUNT(*) FROM person GROUP BY country_of_birth;
+
+
+* GROUP BY HAVING - count is a function
+//Eg: SELECT country_of_birth,COUNT(*) FROM person 
+      GROUP BY country_of_birth HAVING COUNT(*) > 5;
+
+
+* MAX - Select maximumu from a column
+SELECT MAX (price) FROM car;
+
+* MIN - Select minimum from a column
+SELECT MIN (price) FROM car;
+
+
+* AVERAGE
+//Eg: SELECT AVG(price) FROM car;
+
+
+* ROUND - rounding the value to nearest decimel
+//Eg: SELECT ROUND(AVG(price)) FROM car;
+
+
+* SUM - sum of values
+//Eg: SELECT SUM(price) FROM car;
+
+
+*Arithematic operators
+//Eg: SELECT id, make, price, ROUND(price * 0.10, 2), ROUND(price * 0.10), 2 FROM car;
+
+
+* COALESCE - to handle null values -- takes a column value and a string to display its value is null
+//Eg: SELECT COALESCE (email, "Email not provided) FROM person;
+
+
+* TIMESTAMP and DATES 
+//Eg: SELECT NOW();                 Gives timestamp
+//Eg: SELECT NOW():: DATE;          Gives date 
+//Eg: SELECT NOW():: TIME ;         Gives time
+
+
+* Adding primary key constraints
+//Eg: ALTER TABLE person ADD PRIMARY KEY (id);
+
+
+* Unique constraint
+//Eg: ALTER TABLE person ADD CONSTRAINT unique_email_address UNIQUE(email);
+//Eg: ALTER TABLE person ADD UNIQUE(email);                 in this postgres chooses column names
+
+
+* Check constraint
+//Eg: ALTER TABLE ADD CONSTRAINT gender_constraint CHECK(gender = "FEMALE" OR gender= "MALE");
+
+
+* Delete records
+//Eg: DELETE FROM person WHERE id=1;
+//Eg: DELETE FROM person WHERE gender="MALE";
+
+
+*Update records
+//Eg: UPDATE person SET email = "ommar@gmail.com" WHERE id = 2011;
+
+
+======================> With DELETE and UPDATE always use WHERE clause or else you will update entire table.
+
+
+* Upsert -- on conflict update
+==> INSERT INTO person (column1, column2, .....)
+      VALUES (value1 , value2, ... )
+      ON CONFLICT (id) DO UPDATE SET email = EXCLUDED.email;
+
+
+* Relations/ Foreign keys
+-- Foreign key is a column that link primary key of another table.
+
+
+*Exporting Files to CSV
+//Eg: (SELECT * FROM person LEFT JOIN 
+      car ON car.id = person.car_id) TO 
+      '/Users/....csv' DELIMITER ',' CSVHEADER ;
